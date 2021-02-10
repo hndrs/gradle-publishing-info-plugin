@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish").version("0.12.0")
-    kotlin("jvm").version("1.4.30")
+    kotlin("jvm").version("1.4.20")
 }
 
 group = "io.hndrs.gradle"
@@ -17,41 +17,33 @@ repositories {
 
 gradlePlugin {
     plugins {
-        publishingInfoPlugin = register("publishing-info") {
+        publishingInfoPlugin = register("publishingInfoPlugin") {
             id = "io.hndrs.gradle.publishing.info"
             implementationClass = "io.hndrs.gradle.plugin.PublishingInfoPlugin"
         }
     }
 }
 
+val tagList = listOf("maven", "publish", "repository", "gradle", "library", "pom", "pom.xml")
+
 pluginBundle {
-    website = "https://github.com/kreait/aws-credentials-support-plugin"
-    vcsUrl = "https://github.com/kreait/aws-credentials-support-plugin.git"
+    website = "https://github.com/hndrs/gradle-publishing-info-plugin"
+    vcsUrl = "https://github.com/hndrs/gradle-publishing-info-plugin.git"
     description = "Simplifies adding publishing meta data to maven publications"
-    tags = listOf("maven", "publish", "repository", "gradle", "library", "pom", "pom.xml")
-    plugins {
-        publishingInfoPlugin
-    }
-}
+    tags = tagList
 
-val sourcesJar by tasks.creating(Jar::class) {
-    dependsOn("classes")
-    archiveClassifier.set("sources")
-    from(sourceSets["main"].allSource)
-}
-
-publishing {
-    repositories {
-        gradlePluginPortal()
-    }
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-            artifact(sourcesJar)
-
-            groupId = rootProject.group as? String
-            artifactId = rootProject.name
+    (plugins) {
+        // first plugin
+        "publishingInfoPlugin" {
+            // id is captured from java-gradle-plugin configuration
+            displayName = "Gradle publishing info plugin"
+            tags = tagList
             version = rootProject.version as? String
         }
+    }
+    mavenCoordinates {
+        groupId = rootProject.group as? String
+        artifactId = rootProject.name
+        version = rootProject.version as? String
     }
 }
