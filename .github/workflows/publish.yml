@@ -33,13 +33,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Tests
-        run: |
-          ./gradlew check
 
       - name: Publish
         env:
           GRADLE_PLUGIN_PUBLISH_KEY: ${{ secrets.GRADLE_PLUGIN_PUBLISH_SECRET }}
           GRADLE_PLUGIN_PUBLISH_SECRET: ${{ secrets.GRADLE_PLUGIN_PUBLISH_SECRET }}
         run: |
-          ./gradlew publish
+          ./gradlew publish --info
