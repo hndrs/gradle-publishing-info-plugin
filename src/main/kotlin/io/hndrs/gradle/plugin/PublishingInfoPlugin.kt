@@ -10,40 +10,46 @@ import org.gradle.api.publish.maven.MavenPublication
 
 class PublishingInfoPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        // Add the 'greeting' extension object
+        // add extension to root project automatically
         val extension = project.extensions.create("publishingInfo", PublishingInfoPluginExtension::class.java)
 
         // Add a task that uses configuration from the extension object
         project.extensions.findByType(PublishingExtension::class.java)?.publications?.configureEach {
             if (this is MavenPublication) {
                 this.pom {
-                     extension.url?.let {
-                         url.set(it)
-                     }
-                     extension.organization?.let {
-                         this.organization {
-                             name.set(it.name)
-                             url.set(it.url)
-                         }
-                     }
-                     this.developers {
-                         extension.developers.forEach {
-                             this.developer {
-                                 id.set(it.id)
-                                 name.set(it.name)
-                                 email.set(it.email)
-                             }
-                         }
-                     }
-                     this.contributors {
-                         extension.contributers.forEach {
-                             this.contributor {
-                                 name.set(it.name)
-                                 email.set(it.email)
-                                 url.set(it.url)
-                             }
-                         }
-                     }
+                    extension.name?.let {
+                        name.set(it)
+                    }
+                    extension.description?.let {
+                        description.set(it)
+                    }
+                    extension.url?.let {
+                        url.set(it)
+                    }
+                    extension.organization?.let {
+                        this.organization {
+                            name.set(it.name)
+                            url.set(it.url)
+                        }
+                    }
+                    this.developers {
+                        extension.developers.forEach {
+                            this.developer {
+                                id.set(it.id)
+                                name.set(it.name)
+                                email.set(it.email)
+                            }
+                        }
+                    }
+                    this.contributors {
+                        extension.contributers.forEach {
+                            this.contributor {
+                                name.set(it.name)
+                                email.set(it.email)
+                                url.set(it.url)
+                            }
+                        }
+                    }
 
                     extension.scm?.let {
                         this.scm {

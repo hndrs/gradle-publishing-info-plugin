@@ -3,6 +3,16 @@ package io.hndrs.gradle.plugin
 open class PublishingInfoPluginExtension {
 
     /**
+     * Name of the project
+     */
+    var name: String? = null
+
+    /**
+     * Description of the project
+     */
+    var description: String? = null
+
+    /**
      * Url of this project
      */
     var url: String? = null
