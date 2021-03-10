@@ -1,8 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("org.sonarqube").version("3.1.1")
     `kotlin-dsl`
     `maven-publish`
+    jacoco
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish").version("0.12.0")
     kotlin("jvm").version("1.4.20")
@@ -49,9 +51,26 @@ pluginBundle {
     }
 }
 
+sonarqube {
+    properties {
+        property("sonar.projectKey", "hndrs_gradle-publishing-info-plugin")
+        property("sonar.organization", "hndrs")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.exclusions", "**/sample/**")
+    }
+}
+
+configure<JacocoPluginExtension> {
+    toolVersion = "0.8.6"
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
