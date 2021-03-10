@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.hndrs.gradle"
-version = "2.0.0-SNAPSHOT"
+version = "2.0.0"
 
 var publishingInfoPlugin: NamedDomainObjectProvider<PluginDeclaration>? = null
 
@@ -51,12 +51,18 @@ pluginBundle {
     }
 }
 
+dependencies {
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.mockk:mockk:1.10.6")
+}
+
 sonarqube {
     properties {
         property("sonar.projectKey", "hndrs_gradle-publishing-info-plugin")
         property("sonar.organization", "hndrs")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.exclusions", "**/sample/**")
+        property("sonar.exclusions", "**/sample/**, **/io/hndrs/gradle/plugin/Data.kt")
     }
 }
 
