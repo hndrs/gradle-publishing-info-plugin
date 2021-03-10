@@ -1,3 +1,6 @@
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=green&label=GRADLE%20PLUGIN&metadataUrl=https%3A%2F%2Fplugins.gradle.org%2Fm2%2Fio%2Fhndrs%2Fpublishing-info%2Fio.hndrs.publishing-info.gradle.plugin%2Fmaven-metadata.xml&style=for-the-badge)](https://plugins.gradle.org/plugin/io.hndrs.publishing-info)
+[![Coverage](https://img.shields.io/sonar/coverage/hndrs_gradle-publishing-info-plugin?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/dashboard?id=hndrs_gradle-publishing-info-plugin)
+[![Supported Java Version](https://img.shields.io/badge/Supported%20Java%20Version-11%2B-informational?style=for-the-badge)]()
 # Gradle Publishing Info
 
 This is a small helper plugin to add meta information to maven publications.
