@@ -13,24 +13,24 @@ class PublishingInfoBuildListener() : BuildAdapter() {
 
     override fun projectsEvaluated(gradle: Gradle) {
 
-        gradle.rootProject.extensions.findByType(PublishingExtension::class.java)?.publications?.configureEach {
-            if (this is MavenPublication) {
+        gradle.rootProject.extensions.findByType(PublishingExtension::class.java)?.publications?.forEach { publication ->
+            if (publication is MavenPublication) {
                 getPublishingExtension(gradle.rootProject)?.let {
-                    logger.info("Applying publishing info to publication: {}", this.name)
-                    applyPublishingDetails(this, it)
+                    logger.info("Applying publishing info to publication: {}", publication.name)
+                    applyPublishingDetails(publication, it)
                 }
             }
         }
-        gradle.rootProject.subprojects.forEach {
-            it.extensions.findByType(PublishingExtension::class.java)?.publications?.configureEach {
-                if (this is MavenPublication) {
-                    getPublishingExtension(it)?.let {
+        gradle.rootProject.subprojects.forEach { subProject ->
+            subProject.extensions.findByType(PublishingExtension::class.java)?.publications?.forEach { publication ->
+                if (publication is MavenPublication) {
+                    getPublishingExtension(subProject)?.let {
                         if (it.applyFromRoot) {
-                            logger.info("Applying publishing info from RootProject to publication: {}", this.name)
-                            getPublishingExtension(gradle.rootProject)?.let { applyPublishingDetails(this, it) }
+                            logger.info("Applying publishing info from RootProject to publication: {}", publication.name)
+                            getPublishingExtension(gradle.rootProject)?.let { applyPublishingDetails(publication, it) }
                         }
-                        logger.info("Applying publishing info to publication: {}", this.name)
-                        applyPublishingDetails(this, it)
+                        logger.info("Applying publishing info to publication: {}", publication.name)
+                        applyPublishingDetails(publication, it)
                     }
                 }
             }
