@@ -41,5 +41,5 @@ class PublishingInfoPlugin : Plugin<Project> {
 /**
  * Enable Gradle dsl configuration
  */
-fun Project.`publishingInfo`(configure: Action<PublishingInfoExtension>): Unit =
+fun Project.testPublishingInfo(configure: Action<PublishingInfoExtension>): Unit =
     (this as ExtensionAware).extensions.configure("publishingInfo", configure)

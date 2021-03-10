@@ -39,7 +39,9 @@ class PublishingInfoBuildListener() : BuildAdapter() {
 
     private fun applyPublishingDetails(mavenPublication: MavenPublication, extension: PublishingInfoExtension) {
 
-        mavenPublication.pom {
+
+
+        mavenPublication.pom.apply {
             extension.name?.let {
                 name.set(it)
             }
