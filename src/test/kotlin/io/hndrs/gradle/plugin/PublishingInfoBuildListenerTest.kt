@@ -3,6 +3,7 @@ package io.hndrs.gradle.plugin
 import io.mockk.every
 import io.mockk.mockk
 import org.gradle.api.invocation.Gradle
+import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
@@ -44,7 +45,7 @@ internal class PublishingInfoBuildListenerTest {
                     every { findByType(PublishingInfoExtension::class.java) } returns publishingInfoExtension
                     every { findByType(PublishingExtension::class.java) } returns mockk() {
                         every { publications } returns mockk() {
-                            every { publications.iterator() } returns mutableSetOf(rootProjectMavenPublication).iterator()
+                            every { publications.iterator() } returns mutableSetOf(rootProjectMavenPublication, mockk<Publication>()).iterator()
                         }
                     }
                 }
@@ -54,7 +55,7 @@ internal class PublishingInfoBuildListenerTest {
                             every { findByType(PublishingInfoExtension::class.java) } returns publishingInfoExtension
                             every { findByType(PublishingExtension::class.java) } returns mockk() {
                                 every { publications } returns mockk() {
-                                    every { publications.iterator() } returns mutableSetOf<MavenPublication>(subProjectMavenPublication).iterator()
+                                    every { publications.iterator() } returns mutableSetOf(subProjectMavenPublication, mockk<Publication>()).iterator()
                                 }
 
                             }
