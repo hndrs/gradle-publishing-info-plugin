@@ -69,6 +69,14 @@ sonarqube {
 configure<JacocoPluginExtension> {
     toolVersion = "0.8.6"
 }
+tasks.withType<JacocoReport> {
+    reports {
+        xml.apply {
+            isEnabled = true
+        }
+
+    }
+}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
