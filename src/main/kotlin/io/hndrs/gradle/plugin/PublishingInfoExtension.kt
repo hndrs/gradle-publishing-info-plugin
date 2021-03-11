@@ -1,6 +1,14 @@
 package io.hndrs.gradle.plugin
 
-open class PublishingInfoPluginExtension {
+open class PublishingInfoExtension {
+
+    /**
+     * Applies information from rootProject
+     * Notes:
+     * - has no effect on rootProject
+     * - applies but DOES NOT override
+     */
+    var applyFromRoot: Boolean = false
 
     /**
      * Name of the project
@@ -41,4 +49,6 @@ open class PublishingInfoPluginExtension {
      * License information
      */
     var license: License? = null
+
+    var inceptionYear: String? = null
 }
