@@ -62,7 +62,7 @@ sonarqube {
         property("sonar.projectKey", "hndrs_gradle-publishing-info-plugin")
         property("sonar.organization", "hndrs")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.exclusions", "**/sample/**, **/io/hndrs/gradle/plugin/Data.kt")
+        property("sonar.exclusions", "**/sample/**")
     }
 }
 
