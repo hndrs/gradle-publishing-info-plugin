@@ -2,11 +2,16 @@ package io.hndrs.gradle.plugin
 
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import io.mockk.verify
+import org.gradle.api.Action
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPomDeveloper
+import org.gradle.api.publish.maven.MavenPomDeveloperSpec
+import org.gradle.api.publish.maven.MavenPomOrganization
 import org.gradle.api.publish.maven.MavenPublication
 import org.junit.jupiter.api.Test
 
@@ -76,11 +81,41 @@ internal class PublishingInfoBuildListenerTest {
         val listener = PublishingInfoBuildListener()
         val gradle = mockkGradle(PublishingInfoExtension(), mockk(relaxed = true), mockk(relaxed = true))
         listener.projectsEvaluated(gradle)
+    }
 
-        val gradle1 = mockkGradle(testPublishingInfo(), mockk(relaxed = true), mockk(relaxed = true))
-        listener.projectsEvaluated(gradle1)
+    @Test
+    fun projectsEvaluatedWithData() {
+        val listener = PublishingInfoBuildListener()
 
 
+        val developerSpec = slot<Action<MavenPomDeveloperSpec>>()
+        val developerPom = slot<Action<MavenPomDeveloper>>()
+        val mavenPomDeveloper = mockk<MavenPomDeveloperSpec>(relaxed = true) {
+            every { developer(capture(developerPom)) } returns mockk()
+        }
+
+        val mavenPomOrganization = slot<Action<MavenPomOrganization>>()
+        val rootProjectPom = mockk<MavenPom>(relaxed = true) {
+            every { developers(capture(developerSpec)) } returns mockk()
+            every { organization(capture(mavenPomOrganization)) } returns mockk()
+        }
+
+
+        val subProjectPom = mockk<MavenPom>(relaxed = true)
+        val gradle = mockkGradle(testPublishingInfo(), rootProjectPom, subProjectPom)
+        listener.projectsEvaluated(gradle)
+
+        developerSpec.captured.execute(mavenPomDeveloper)
+        val developer = mockk<MavenPomDeveloper>(relaxed = true)
+        developerPom.captured.execute(developer)
+        verify(exactly = 1) { developer.email }
+        verify(exactly = 1) { developer.id }
+        verify(exactly = 1) { developer.name }
+
+        val org = mockk<MavenPomOrganization>(relaxed = true)
+        mavenPomOrganization.captured.execute(org)
+        verify(exactly = 1) { org.name }
+        verify(exactly = 1) { org.url }
     }
 
     private fun mockkGradle(
