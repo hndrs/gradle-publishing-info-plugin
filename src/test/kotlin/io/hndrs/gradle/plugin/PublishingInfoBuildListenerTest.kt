@@ -2,6 +2,7 @@ package io.hndrs.gradle.plugin
 
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
@@ -10,6 +11,33 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.junit.jupiter.api.Test
 
 internal class PublishingInfoBuildListenerTest {
+
+    @Test
+    fun projectsWithOutMavenPublish() {
+        val listener = PublishingInfoBuildListener()
+
+        val gradle = mockk<Gradle>() {
+            every { rootProject } returns mockk() {
+                every { extensions } returns mockk() {
+                    every { findByType(PublishingExtension::class.java) } returns null
+                }
+                every { subprojects } returns setOf(
+                    mockk() {
+                        every { extensions } returns mockk() {
+                            every { findByType(PublishingExtension::class.java) } returns mockk() {
+                                every { publications } returns null
+                            }
+                        }
+                    })
+            }
+        }
+
+        val rootProjectExtensions = gradle.rootProject.extensions
+        val subProjectExtensions = gradle.rootProject.subprojects.first().extensions
+        listener.projectsEvaluated(gradle)
+        verify(exactly = 0) { rootProjectExtensions.findByType(PublishingInfoExtension::class.java) }
+        verify(exactly = 0) { subProjectExtensions.findByType(PublishingInfoExtension::class.java) }
+    }
 
     @Test
     fun projectsEvaluated() {
