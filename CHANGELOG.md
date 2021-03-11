@@ -13,7 +13,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - plugin only has to be applied on rootproject
 - changed Contributer Email to be optional
-- changed Contributer Email to be optional
+- changed Developer Email to be optional
 
 ### Added
 
