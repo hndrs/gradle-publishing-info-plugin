@@ -13,34 +13,29 @@ class PublishingInfoBuildListener() : BuildAdapter() {
 
     override fun projectsEvaluated(gradle: Gradle) {
 
-        gradle.rootProject.extensions.findByType(PublishingExtension::class.java)?.publications?.forEach { publication ->
-            if (publication is MavenPublication) {
-                getPublishingExtension(gradle.rootProject)?.let {
+        findMavenPublications(gradle.rootProject)
+            .forEach { publication ->
+                getPublishingInfoExtension(gradle.rootProject)?.let {
                     logger.info("Applying publishing info to publication: {}", publication.name)
                     applyPublishingDetails(publication, it)
                 }
             }
-        }
+
         gradle.rootProject.subprojects.forEach { subProject ->
-            subProject.extensions.findByType(PublishingExtension::class.java)?.publications?.forEach { publication ->
-                if (publication is MavenPublication) {
-                    getPublishingExtension(subProject)?.let {
-                        if (it.applyFromRoot) {
-                            logger.info("Applying publishing info from RootProject to publication: {}", publication.name)
-                            getPublishingExtension(gradle.rootProject)?.let { applyPublishingDetails(publication, it) }
-                        }
-                        logger.info("Applying publishing info to publication: {}", publication.name)
-                        applyPublishingDetails(publication, it)
+            findMavenPublications(subProject).forEach { publication ->
+                getPublishingInfoExtension(subProject)?.let {
+                    if (it.applyFromRoot) {
+                        logger.info("Applying publishing info from RootProject to publication: {}", publication.name)
+                        getPublishingInfoExtension(gradle.rootProject)?.let { applyPublishingDetails(publication, it) }
                     }
+                    logger.info("Applying publishing info to publication: {}", publication.name)
+                    applyPublishingDetails(publication, it)
                 }
             }
         }
     }
 
     private fun applyPublishingDetails(mavenPublication: MavenPublication, extension: PublishingInfoExtension) {
-
-
-
         mavenPublication.pom.apply {
             extension.name?.let {
                 name.set(it)
@@ -97,7 +92,13 @@ class PublishingInfoBuildListener() : BuildAdapter() {
         }
     }
 
-    private fun getPublishingExtension(project: Project): PublishingInfoExtension? {
+    private fun findMavenPublications(project: Project): List<MavenPublication> {
+        return project.extensions.findByType(PublishingExtension::class.java)?.publications
+            ?.filter { it is MavenPublication }
+            ?.map { it as MavenPublication }.orEmpty()
+    }
+
+    private fun getPublishingInfoExtension(project: Project): PublishingInfoExtension? {
         return project.extensions.findByType(PublishingInfoExtension::class.java)
     }
 
