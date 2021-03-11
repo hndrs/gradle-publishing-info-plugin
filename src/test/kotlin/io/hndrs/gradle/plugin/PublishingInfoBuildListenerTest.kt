@@ -135,32 +135,32 @@ internal class PublishingInfoBuildListenerTest {
         mavenPomDeveloperSpecSlot.captured.execute(mavenPomDeveloperSpec)
         val developer = mockk<MavenPomDeveloper>(relaxed = true)
         mavenPomDeveloperSlot.captured.execute(developer)
-        verify(exactly = 1) { developer.email }
-        verify(exactly = 1) { developer.id }
-        verify(exactly = 1) { developer.name }
+        verify(exactly = 1) { developer.email.set(testPublishingInfo().developers[0].email) }
+        verify(exactly = 1) { developer.id.set(testPublishingInfo().developers[0].id) }
+        verify(exactly = 1) { developer.name.set(testPublishingInfo().developers[0].name) }
 
         mavenPomContributorSpecSlot.captured.execute(mavenPomContributorSpec)
         val contributor = mockk<MavenPomContributor>(relaxed = true)
         mavenPomContributorSlot.captured.execute(contributor)
-        verify(exactly = 1) { contributor.email }
-        verify(exactly = 1) { contributor.name }
-        verify(exactly = 1) { contributor.url }
+        verify(exactly = 1) { contributor.email.set(testPublishingInfo().contributers[0].email) }
+        verify(exactly = 1) { contributor.name.set(testPublishingInfo().contributers[0].name) }
+        verify(exactly = 1) { contributor.url.set(testPublishingInfo().contributers[0].url) }
 
         val org = mockk<MavenPomOrganization>(relaxed = true)
         mavenPomOrganizationSlot.captured.execute(org)
-        verify(exactly = 1) { org.name }
-        verify(exactly = 1) { org.url }
+        verify(exactly = 1) { org.name.set(testPublishingInfo().organization!!.name) }
+        verify(exactly = 1) { org.url.set(testPublishingInfo().organization!!.url) }
 
         val scm = mockk<MavenPomScm>(relaxed = true)
         mavenPomScmSlot.captured.execute(scm)
-        verify(exactly = 1) { scm.url }
-        verify(exactly = 1) { scm.connection }
+        verify(exactly = 1) { scm.url.set(testPublishingInfo().scm!!.url) }
+        verify(exactly = 1) { scm.connection.set(testPublishingInfo().scm!!.connection) }
 
         mavenPomLicenseSpecSlot.captured.execute(mavenPomLicenseSpec)
         val license = mockk<MavenPomLicense>(relaxed = true)
         mavenPomLicenseSlot.captured.execute(license)
-        verify(exactly = 1) { license.name }
-        verify(exactly = 1) { license.url }
+        verify(exactly = 1) { license.name.set(testPublishingInfo().license!!.name) }
+        verify(exactly = 1) { license.url.set(testPublishingInfo().license!!.url) }
     }
 
     private fun mockkGradle(
