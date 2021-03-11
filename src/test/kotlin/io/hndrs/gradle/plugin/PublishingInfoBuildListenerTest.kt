@@ -9,6 +9,8 @@ import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.publish.maven.MavenPomContributor
+import org.gradle.api.publish.maven.MavenPomContributorSpec
 import org.gradle.api.publish.maven.MavenPomDeveloper
 import org.gradle.api.publish.maven.MavenPomDeveloperSpec
 import org.gradle.api.publish.maven.MavenPomLicense
@@ -98,6 +100,13 @@ internal class PublishingInfoBuildListenerTest {
             every { developer(capture(mavenPomDeveloperSlot)) } returns mockk()
         }
 
+        // Mock Developer setup
+        val mavenPomContributorSpecSlot = slot<Action<MavenPomContributorSpec>>()
+        val mavenPomContributorSlot = slot<Action<MavenPomContributor>>()
+        val mavenPomContributorSpec = mockk<MavenPomContributorSpec>(relaxed = true) {
+            every { contributor(capture(mavenPomContributorSlot)) } returns mockk()
+        }
+
         // Mokc Organisation setup
         val mavenPomOrganizationSlot = slot<Action<MavenPomOrganization>>()
 
@@ -112,6 +121,7 @@ internal class PublishingInfoBuildListenerTest {
 
         val rootProjectPom = mockk<MavenPom>(relaxed = true) {
             every { developers(capture(mavenPomDeveloperSpecSlot)) } returns mockk()
+            every { contributors(capture(mavenPomContributorSpecSlot)) } returns mockk()
             every { organization(capture(mavenPomOrganizationSlot)) } returns mockk()
             every { scm(capture(mavenPomScmSlot)) } returns mockk()
             every { licenses(capture(mavenPomLicenseSpecSlot)) } returns mockk()
@@ -128,6 +138,13 @@ internal class PublishingInfoBuildListenerTest {
         verify(exactly = 1) { developer.email }
         verify(exactly = 1) { developer.id }
         verify(exactly = 1) { developer.name }
+
+        mavenPomContributorSpecSlot.captured.execute(mavenPomContributorSpec)
+        val contributor = mockk<MavenPomContributor>(relaxed = true)
+        mavenPomContributorSlot.captured.execute(contributor)
+        verify(exactly = 1) { contributor.email }
+        verify(exactly = 1) { contributor.name }
+        verify(exactly = 1) { contributor.url }
 
         val org = mockk<MavenPomOrganization>(relaxed = true)
         mavenPomOrganizationSlot.captured.execute(org)
