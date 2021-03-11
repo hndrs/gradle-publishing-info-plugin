@@ -5,8 +5,6 @@ import org.gradle.api.Project
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 
 class PublishingInfoBuildListener() : BuildAdapter() {
@@ -16,7 +14,14 @@ class PublishingInfoBuildListener() : BuildAdapter() {
         findMavenPublications(gradle.rootProject)
             .forEach { publication ->
                 getPublishingInfoExtension(gradle.rootProject)?.let {
-                    logger.info("Applying publishing info to publication: {}", publication.name)
+                    if (it.applyFromRoot) {
+                        Logger.warn(
+                            "applyFromRoot=true has no effect when configured on the RootProject.\n" +
+                                    "To remove this warning remove the applyFromRoot setting " +
+                                    "on the rootProject publishingInfo"
+                        )
+                    }
+                    Logger.info("Applying publishing info to publication: {}", publication.name)
                     applyPublishingDetails(publication, it)
                 }
             }
@@ -25,10 +30,10 @@ class PublishingInfoBuildListener() : BuildAdapter() {
             findMavenPublications(subProject).forEach { publication ->
                 getPublishingInfoExtension(subProject)?.let {
                     if (it.applyFromRoot) {
-                        logger.info("Applying publishing info from RootProject to publication: {}", publication.name)
+                        Logger.info("Applying publishing info from RootProject to publication: {}", publication.name)
                         getPublishingInfoExtension(gradle.rootProject)?.let { applyPublishingDetails(publication, it) }
                     }
-                    logger.info("Applying publishing info to publication: {}", publication.name)
+                    Logger.info("Applying publishing info to publication: {}", publication.name)
                     applyPublishingDetails(publication, it)
                 }
             }
@@ -100,9 +105,5 @@ class PublishingInfoBuildListener() : BuildAdapter() {
 
     private fun getPublishingInfoExtension(project: Project): PublishingInfoExtension? {
         return project.extensions.findByType(PublishingInfoExtension::class.java)
-    }
-
-    companion object {
-        private val logger: Logger = LoggerFactory.getLogger(PublishingInfoBuildListener::class.java)
     }
 }

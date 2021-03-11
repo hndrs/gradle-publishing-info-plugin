@@ -3,6 +3,7 @@ import io.hndrs.gradle.plugin.Developer
 import io.hndrs.gradle.plugin.License
 import io.hndrs.gradle.plugin.Organization
 import io.hndrs.gradle.plugin.Scm
+import io.hndrs.gradle.plugin.publishingInfo
 
 buildscript {
     repositories {
