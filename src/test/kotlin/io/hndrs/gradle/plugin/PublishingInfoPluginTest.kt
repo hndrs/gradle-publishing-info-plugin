@@ -48,6 +48,7 @@ internal class PublishingInfoPluginTest {
 
         val project = mockk<Project>() {
             every { rootProject } returns mockk()
+            every { name } returns "TestSubProject"
             every { gradle } returns gradleMockk
         }
 
