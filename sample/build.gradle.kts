@@ -82,6 +82,7 @@ publishingInfo {
 subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "java")
+    apply(plugin = "io.hndrs.publishing-info")
     java {
         withJavadocJar()
     }

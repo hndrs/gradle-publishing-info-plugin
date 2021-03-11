@@ -16,9 +16,10 @@ class PublishingInfoPlugin : Plugin<Project> {
             gradle.addBuildListener(PublishingInfoBuildListener())
         } else {
             Logger.warn(
-                "Trying to apply plugin to subproject. " +
+                "Trying to apply plugin to SubProject {}. " +
                         "The plugin automatically registers on all projects. \n" +
-                        "To remove this message remove apply plugin"
+                        "To remove this message remove apply plugin on the SubProject",
+                project.name
             )
         }
 
