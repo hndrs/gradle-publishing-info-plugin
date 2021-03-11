@@ -3,7 +3,6 @@ import io.hndrs.gradle.plugin.Developer
 import io.hndrs.gradle.plugin.License
 import io.hndrs.gradle.plugin.Organization
 import io.hndrs.gradle.plugin.Scm
-import io.hndrs.gradle.plugin.publishingInfo
 
 buildscript {
     repositories {
@@ -11,7 +10,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("io.hndrs.gradle:gradle-publishing-info-plugin:2.0.0-SNAPSHOT")
+        classpath("io.hndrs.gradle:gradle-publishing-info-plugin:2.0.0")
     }
 }
 
