@@ -11,6 +11,8 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPomDeveloper
 import org.gradle.api.publish.maven.MavenPomDeveloperSpec
+import org.gradle.api.publish.maven.MavenPomLicense
+import org.gradle.api.publish.maven.MavenPomLicenseSpec
 import org.gradle.api.publish.maven.MavenPomOrganization
 import org.gradle.api.publish.maven.MavenPublication
 import org.junit.jupiter.api.Test
@@ -88,16 +90,28 @@ internal class PublishingInfoBuildListenerTest {
         val listener = PublishingInfoBuildListener()
 
 
-        val developerSpec = slot<Action<MavenPomDeveloperSpec>>()
-        val developerPom = slot<Action<MavenPomDeveloper>>()
-        val mavenPomDeveloper = mockk<MavenPomDeveloperSpec>(relaxed = true) {
-            every { developer(capture(developerPom)) } returns mockk()
+        // Developer Mock Pom Setup
+        val mavenPomDeveloperSpecSlot = slot<Action<MavenPomDeveloperSpec>>()
+        val mavenPomDeveloperSlot = slot<Action<MavenPomDeveloper>>()
+        val mavenPomDeveloperSpec = mockk<MavenPomDeveloperSpec>(relaxed = true) {
+            every { developer(capture(mavenPomDeveloperSlot)) } returns mockk()
         }
 
+        // Organisation Mock Pom Setup
         val mavenPomOrganization = slot<Action<MavenPomOrganization>>()
+
+
+        // License Mock Pom Setup
+        val mavenPomLicenseSpecSlot = slot<Action<MavenPomLicenseSpec>>()
+        val mavenPomLicenseSlot = slot<Action<MavenPomLicense>>()
+        val mavenPomLicenseSpec = mockk<MavenPomLicenseSpec>() {
+            every { license(capture(mavenPomLicenseSlot)) } returns mockk()
+        }
+
         val rootProjectPom = mockk<MavenPom>(relaxed = true) {
-            every { developers(capture(developerSpec)) } returns mockk()
+            every { developers(capture(mavenPomDeveloperSpecSlot)) } returns mockk()
             every { organization(capture(mavenPomOrganization)) } returns mockk()
+            every { licenses(capture(mavenPomLicenseSpecSlot)) } returns mockk()
         }
 
 
@@ -105,9 +119,9 @@ internal class PublishingInfoBuildListenerTest {
         val gradle = mockkGradle(testPublishingInfo(), rootProjectPom, subProjectPom)
         listener.projectsEvaluated(gradle)
 
-        developerSpec.captured.execute(mavenPomDeveloper)
+        mavenPomDeveloperSpecSlot.captured.execute(mavenPomDeveloperSpec)
         val developer = mockk<MavenPomDeveloper>(relaxed = true)
-        developerPom.captured.execute(developer)
+        mavenPomDeveloperSlot.captured.execute(developer)
         verify(exactly = 1) { developer.email }
         verify(exactly = 1) { developer.id }
         verify(exactly = 1) { developer.name }
@@ -116,6 +130,12 @@ internal class PublishingInfoBuildListenerTest {
         mavenPomOrganization.captured.execute(org)
         verify(exactly = 1) { org.name }
         verify(exactly = 1) { org.url }
+
+        mavenPomLicenseSpecSlot.captured.execute(mavenPomLicenseSpec)
+        val license = mockk<MavenPomLicense>(relaxed = true)
+        mavenPomLicenseSlot.captured.execute(license)
+        verify(exactly = 1) { license.name }
+        verify(exactly = 1) { license.url }
     }
 
     private fun mockkGradle(
@@ -152,7 +172,6 @@ internal class PublishingInfoBuildListenerTest {
                                 every { publications } returns mockk() {
                                     every { publications.iterator() } returns mutableSetOf(subProjectMavenPublication, mockk<Publication>()).iterator()
                                 }
-
                             }
                         }
                     })
