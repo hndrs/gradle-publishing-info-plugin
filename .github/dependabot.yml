@@ -4,8 +4,3 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-
-registries:
-  gradle-plugin-repository:
-    type: maven-repository
-    url: https://plugins.gradle.org/m2/
