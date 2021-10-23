@@ -16,7 +16,7 @@ version = "2.0.0"
 var publishingInfoPlugin: NamedDomainObjectProvider<PluginDeclaration>? = null
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 gradlePlugin {
