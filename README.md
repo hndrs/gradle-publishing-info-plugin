@@ -2,13 +2,14 @@
 [![Coverage](https://img.shields.io/sonar/coverage/hndrs_gradle-publishing-info-plugin?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/dashboard?id=hndrs_gradle-publishing-info-plugin)
 [![Supported Java Version](https://img.shields.io/badge/Supported%20Java%20Version-11%2B-informational?style=for-the-badge)]()
 [![Sponsor](https://img.shields.io/static/v1?logo=GitHub&label=Sponsor&message=%E2%9D%A4&color=ff69b4&style=for-the-badge)](https://github.com/sponsors/marvinschramm)
+
 # Gradle Publishing Info
 
 This is a small helper plugin to add meta information to maven publications.
 
 ## Using the Plugin
 
-Add the following dependency to you plugin block in your rootProject
+Add the following dependency to your plugin block in your rootProject
 
 ```kotlin
 plugins {

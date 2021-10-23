@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.sonarqube").version("3.1.1")
+    id("org.sonarqube").version("3.3")
     `kotlin-dsl`
     `maven-publish`
     jacoco
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish").version("0.12.0")
-    kotlin("jvm").version("1.4.20")
+    kotlin("jvm")
 }
 
 group = "io.hndrs.gradle"
@@ -52,9 +52,9 @@ pluginBundle {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation(platform("org.junit:junit-bom:5.8.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("io.mockk:mockk:1.10.6")
+    testImplementation("io.mockk:mockk:1.12.0")
 }
 
 sonarqube {
@@ -67,12 +67,12 @@ sonarqube {
 }
 
 configure<JacocoPluginExtension> {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 tasks.withType<JacocoReport> {
     reports {
         xml.apply {
-            isEnabled = true
+            this.required.set(true)
         }
 
     }
