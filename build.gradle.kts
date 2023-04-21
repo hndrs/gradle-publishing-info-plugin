@@ -1,17 +1,20 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.sonarqube").version("3.3")
+    id("org.sonarqube").version("4.0.0.2929")
     `kotlin-dsl`
     `maven-publish`
     jacoco
     id("java-gradle-plugin")
-    id("com.gradle.plugin-publish").version("0.12.0")
+    id("com.gradle.plugin-publish").version("1.2.0")
     kotlin("jvm")
 }
 
 group = "io.hndrs.gradle"
-version = "2.0.0"
+version = "3.0.0"
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 var publishingInfoPlugin: NamedDomainObjectProvider<PluginDeclaration>? = null
 
@@ -19,42 +22,27 @@ repositories {
     mavenCentral()
 }
 
+val tagList = listOf("maven", "publish", "repository", "gradle", "library", "pom", "pom.xml", "plugins", "kotlin")
+
 gradlePlugin {
+    website.set("https://github.com/hndrs/gradle-publishing-info-plugin")
+    vcsUrl.set("https://github.com/hndrs/gradle-publishing-info-plugin.git")
+
     plugins {
-        publishingInfoPlugin = register("publishingInfoPlugin") {
+        create("publishingInfoPlugin") {
             id = "io.hndrs.publishing-info"
             implementationClass = "io.hndrs.gradle.plugin.PublishingInfoPlugin"
+            description = "Simplifies adding publishing meta data to maven publications"
+            tags.set(tagList)
         }
-    }
-}
-
-val tagList = listOf("maven", "publish", "repository", "gradle", "library", "pom", "pom.xml", "plugins")
-
-pluginBundle {
-    website = "https://github.com/hndrs/gradle-publishing-info-plugin"
-    vcsUrl = "https://github.com/hndrs/gradle-publishing-info-plugin.git"
-    description = "Simplifies adding publishing meta data to maven publications"
-    tags = tagList
-    (plugins) {
-        // first plugin
-        "publishingInfoPlugin" {
-            // id is captured from java-gradle-plugin configuration
-            displayName = "Gradle Publishing Info plugin"
-            tags = tagList
-            version = rootProject.version as? String
-        }
-    }
-    mavenCoordinates {
-        groupId = rootProject.group as? String
-        artifactId = rootProject.name
-        version = rootProject.version as? String
     }
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.8.1"))
+    testImplementation(platform("org.junit:junit-bom:5.9.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("io.mockk:mockk:1.12.1")
+    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = "5.6.1")
 }
 
 sonarqube {
@@ -67,7 +55,7 @@ sonarqube {
 }
 
 configure<JacocoPluginExtension> {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.9"
 }
 tasks.withType<JacocoReport> {
     reports {
@@ -81,7 +69,7 @@ tasks.withType<JacocoReport> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 

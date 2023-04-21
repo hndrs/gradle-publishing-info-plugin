@@ -7,7 +7,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-- dependency upgrade kotlin 1.4.20 to 1.5.30
+- dependency upgrade kotlin 1.8.10
+- dependency upgrade gradle 8.0.2
+- dependency upgrade java 17
+- dependency upgrade com.gradle.plugin-publish
 
 ## [2.0.0]
 

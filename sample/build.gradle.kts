@@ -17,7 +17,7 @@ buildscript {
 
 plugins {
     id("java")
-    kotlin("jvm").version("1.4.30")
+    kotlin("jvm").version("1.8.10")
     id("maven-publish")
     id("idea")
 }

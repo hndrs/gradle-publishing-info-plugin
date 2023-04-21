@@ -22,9 +22,10 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          distribution: temurin
+          java-version: 17
 
       - name: Setup Build Cache
         uses: actions/cache@v2
@@ -40,4 +41,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew check jacocoTestReport sonarqube
+          ./gradlew check jacocoTestReport sonar
