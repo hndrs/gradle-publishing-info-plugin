@@ -9,6 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.0.0]
 
+### Changed
 - dependency upgrade kotlin 1.8.10
 - dependency upgrade gradle 8.0.2
 - dependency upgrade java 17
@@ -34,7 +35,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Allow adding POM Meta info via ```publishingInfo```
 
-[unreleased]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v3.0.0...HEAD
+
+[3.0.0]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v2.0.2...v3.0.0
 
 [2.0.0]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/a9b56be382ab065e05c602815dba1d77536f6595...v2.0.0
 
