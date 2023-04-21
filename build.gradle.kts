@@ -22,7 +22,7 @@ repositories {
     mavenCentral()
 }
 
-val tagList = listOf("maven", "publish", "repository", "gradle", "library", "pom", "pom.xml", "plugins", "kotlin")
+val tagList = listOf("maven", "publish", "repository", "library", "pom", "pom.xml", "kotlin")
 
 gradlePlugin {
     website.set("https://github.com/hndrs/gradle-publishing-info-plugin")
