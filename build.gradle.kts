@@ -31,6 +31,7 @@ gradlePlugin {
     plugins {
         create("publishingInfoPlugin") {
             id = "io.hndrs.publishing-info"
+            displayName = "Gradle Publishing Info plugin"
             implementationClass = "io.hndrs.gradle.plugin.PublishingInfoPlugin"
             description = "Simplifies adding publishing meta data to maven publications"
             tags.set(tagList)
