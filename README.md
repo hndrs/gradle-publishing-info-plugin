@@ -1,6 +1,6 @@
 [![Maven metadata URL](https://img.shields.io/maven-metadata/v?color=green&label=GRADLE%20PLUGIN&metadataUrl=https%3A%2F%2Fplugins.gradle.org%2Fm2%2Fio%2Fhndrs%2Fpublishing-info%2Fio.hndrs.publishing-info.gradle.plugin%2Fmaven-metadata.xml&style=for-the-badge)](https://plugins.gradle.org/plugin/io.hndrs.publishing-info)
 [![Coverage](https://img.shields.io/sonar/coverage/hndrs_gradle-publishing-info-plugin?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/dashboard?id=hndrs_gradle-publishing-info-plugin)
-[![Supported Java Version](https://img.shields.io/badge/Supported%20Java%20Version-11%2B-informational?style=for-the-badge)]()
+[![Supported Java Version](https://img.shields.io/badge/Supported%20Java%20Version-17%2B-informational?style=for-the-badge)]()
 [![Sponsor](https://img.shields.io/static/v1?logo=GitHub&label=Sponsor&message=%E2%9D%A4&color=ff69b4&style=for-the-badge)](https://github.com/sponsors/marvinschramm)
 
 # Gradle Publishing Info
@@ -13,7 +13,7 @@ Add the following dependency to your plugin block in your rootProject
 
 ```kotlin
 plugins {
-    id("io.hndrs.publishing-info").version("2.0.0")
+    id("io.hndrs.publishing-info").version("3.0.0")
 }
 ```
 
