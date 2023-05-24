@@ -20,11 +20,11 @@ import org.gradle.api.publish.maven.MavenPomScm
 import org.gradle.api.publish.maven.MavenPublication
 import org.junit.jupiter.api.Test
 
-internal class PublishingInfoBuildListenerTest {
+internal class MavenPublicationConfigurationTest {
 
     @Test
     fun projectsWithoutPublications() {
-        val listener = PublishingInfoBuildListener()
+        val mavenPublicationConfiguration = MavenPublicationConfiguration()
 
         val gradle = mockk<Gradle>() {
             every { rootProject } returns mockk() {
@@ -49,14 +49,14 @@ internal class PublishingInfoBuildListenerTest {
         }
         val rootProjectExtensions = gradle.rootProject.extensions
         val subProjectExtensions = gradle.rootProject.subprojects.first().extensions
-        listener.projectsEvaluated(gradle)
+        mavenPublicationConfiguration.execute(gradle)
         verify(exactly = 0) { rootProjectExtensions.findByType(PublishingInfoExtension::class.java) }
         verify(exactly = 0) { subProjectExtensions.findByType(PublishingInfoExtension::class.java) }
     }
 
     @Test
     fun projectsWithoutMavenPublish() {
-        val listener = PublishingInfoBuildListener()
+        val mavenPublicationConfiguration = MavenPublicationConfiguration()
 
         val gradle = mockk<Gradle>() {
             every { rootProject } returns mockk() {
@@ -76,21 +76,21 @@ internal class PublishingInfoBuildListenerTest {
 
         val rootProjectExtensions = gradle.rootProject.extensions
         val subProjectExtensions = gradle.rootProject.subprojects.first().extensions
-        listener.projectsEvaluated(gradle)
+        mavenPublicationConfiguration.execute(gradle)
         verify(exactly = 0) { rootProjectExtensions.findByType(PublishingInfoExtension::class.java) }
         verify(exactly = 0) { subProjectExtensions.findByType(PublishingInfoExtension::class.java) }
     }
 
     @Test
     fun projectsEvaluated() {
-        val listener = PublishingInfoBuildListener()
+        val mavenPublicationConfiguration = MavenPublicationConfiguration()
         val gradle = mockkGradle(PublishingInfoExtension(), mockk(relaxed = true), mockk(relaxed = true))
-        listener.projectsEvaluated(gradle)
+        mavenPublicationConfiguration.execute(gradle)
     }
 
     @Test
     fun projectsEvaluatedWithData() {
-        val listener = PublishingInfoBuildListener()
+        val mavenPublicationConfiguration = MavenPublicationConfiguration()
 
 
         // Mock Developer setup
@@ -130,7 +130,7 @@ internal class PublishingInfoBuildListenerTest {
 
         val subProjectPom = mockk<MavenPom>(relaxed = true)
         val gradle = mockkGradle(testPublishingInfo(), rootProjectPom, subProjectPom)
-        listener.projectsEvaluated(gradle)
+        mavenPublicationConfiguration.execute(gradle)
 
         mavenPomDeveloperSpecSlot.captured.execute(mavenPomDeveloperSpec)
         val developer = mockk<MavenPomDeveloper>(relaxed = true)

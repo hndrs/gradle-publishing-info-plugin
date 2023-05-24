@@ -13,7 +13,8 @@ class PublishingInfoPlugin : Plugin<Project> {
             val gradle = project.gradle
             // add extension to root project automatically
             registerPublishingInfoExtensions(gradle)
-            gradle.addBuildListener(PublishingInfoBuildListener())
+            gradle.projectsEvaluated(MavenPublicationConfiguration())
+
         } else {
             Logger.warn(
                 "Trying to apply plugin to SubProject {}. " +

@@ -7,9 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- adds gradle `configuration-cache` support by replacing BuildListener
+
 ## [3.0.0]
 
 ### Changed
+
 - dependency upgrade kotlin 1.8.10
 - dependency upgrade gradle 8.0.2
 - dependency upgrade java 17

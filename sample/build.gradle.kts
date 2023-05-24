@@ -5,24 +5,13 @@ import io.hndrs.gradle.plugin.Organization
 import io.hndrs.gradle.plugin.Scm
 import io.hndrs.gradle.plugin.publishingInfo
 
-buildscript {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-    dependencies {
-        classpath("io.hndrs.gradle:gradle-publishing-info-plugin:2.0.0")
-    }
-}
-
 plugins {
     id("java")
-    kotlin("jvm").version("1.8.10")
+    kotlin("jvm").version("1.8.21")
     id("maven-publish")
-    id("idea")
+    id("io.hndrs.publishing-info")
 }
 
-apply(plugin = "io.hndrs.publishing-info")
 
 
 group = "io.hndrs.gradle.sample"

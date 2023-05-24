@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.hndrs.gradle"
-version = "3.0.0"
+version = "3.1.0"
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
@@ -38,7 +38,6 @@ gradlePlugin {
         }
     }
 }
-
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
