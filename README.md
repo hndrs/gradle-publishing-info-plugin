@@ -13,7 +13,7 @@ Add the following dependency to your plugin block in your rootProject
 
 ```kotlin
 plugins {
-    id("io.hndrs.publishing-info").version("3.0.0")
+    id("io.hndrs.publishing-info").version("3.1.0")
 }
 ```
 
