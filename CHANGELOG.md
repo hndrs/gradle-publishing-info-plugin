@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.1.0]
+
 - adds gradle `configuration-cache` support by replacing BuildListener
 
 ## [3.0.0]
@@ -38,7 +40,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Allow adding POM Meta info via ```publishingInfo```
 
-[unreleased]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v3.0.0...HEAD
+[unreleased]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v3.1.0...HEAD
+
+[3.0.0]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v3.0.0...v3.1.0
 
 [3.0.0]: https://github.com/hndrs/gradle-publishing-info-plugin/compare/v2.0.2...v3.0.0
 
