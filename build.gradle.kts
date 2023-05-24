@@ -40,7 +40,7 @@ gradlePlugin {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.2"))
+    testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.mockk:mockk:1.13.5")
     testImplementation(group = "io.kotest", name = "kotest-assertions-core", version = "5.6.2")
