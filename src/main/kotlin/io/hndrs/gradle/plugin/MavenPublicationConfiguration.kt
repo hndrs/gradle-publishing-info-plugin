@@ -1,16 +1,15 @@
 package io.hndrs.gradle.plugin
 
-import org.gradle.BuildAdapter
+import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 
 
-class PublishingInfoBuildListener() : BuildAdapter() {
+class MavenPublicationConfiguration:Action<Gradle>  {
 
-    override fun projectsEvaluated(gradle: Gradle) {
-
+    override fun execute(gradle: Gradle) {
         findMavenPublications(gradle.rootProject)
             .forEach { publication ->
                 getPublishingInfoExtension(gradle.rootProject)?.let {

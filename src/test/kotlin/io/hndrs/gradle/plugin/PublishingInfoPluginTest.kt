@@ -35,7 +35,7 @@ internal class PublishingInfoPluginTest {
 
         plugin.apply(project)
 
-        verify(exactly = 1) { gradleMockk.addBuildListener(any()) }
+        verify(exactly = 1) { gradleMockk.projectsEvaluated(any<MavenPublicationConfiguration>()) }
         verify(exactly = 1) { rootProjectExtensions.create("publishingInfo", PublishingInfoExtension::class.java) }
         verify(exactly = 1) { subProjectExtensions.create("publishingInfo", PublishingInfoExtension::class.java) }
     }
